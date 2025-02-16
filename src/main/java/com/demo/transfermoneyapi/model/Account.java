@@ -30,7 +30,7 @@ public class Account {
         this.treasury = treasury;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }

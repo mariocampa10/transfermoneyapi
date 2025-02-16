@@ -15,7 +15,7 @@ public class AccountService {
     // Creates a new account.
     public Account createAccount(Account account) {
         if (!account.getTreasury() && account.getBalance().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Las cuentas no de tesorería no pueden tener saldo negativo.");
+            throw new IllegalArgumentException("Non traasury accounts can't be negative.");
         }
         return accountRepository.save(account);
     }
@@ -23,6 +23,31 @@ public class AccountService {
     // Gets existing accounts
     public Iterable<Account> getAllAccounts() {
         return accountRepository.findAll();
+    }
+
+    public void transferMoney(Long fromAccountId, Long toAccountId, BigDecimal amount) {
+        Account fromAccount = accountRepository.findById(fromAccountId)
+                .orElseThrow(() -> new RuntimeException("Original account not found."));
+        Account toAccount = accountRepository.findById(toAccountId)
+                .orElseThrow(() -> new RuntimeException("Destination account not found."));
+
+        // Currency has to be the same
+        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
+            throw new IllegalArgumentException("Account currency does not match.");
+        }
+
+        BigDecimal newFromBalance = fromAccount.getBalance().subtract(amount);
+
+        // Non treasury accounts can not have negative balance
+        if (!fromAccount.getTreasury() && newFromBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Non traasury accounts can't be negative.");
+        }
+
+        fromAccount.setBalance(newFromBalance);
+        toAccount.setBalance(toAccount.getBalance().add(amount));
+
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
     }
 }
 

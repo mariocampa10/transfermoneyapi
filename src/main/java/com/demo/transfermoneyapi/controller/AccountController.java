@@ -1,5 +1,6 @@
 package com.demo.transfermoneyapi.controller;
 
+import com.demo.transfermoneyapi.dto.TransferRequest;
 import com.demo.transfermoneyapi.model.Account;
 import com.demo.transfermoneyapi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class AccountController {
     public @ResponseBody Iterable<Account> getAllUsers() {
         // This returns a JSON or XML with the users
         return accountService.getAllAccounts();
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
+        accountService.transferMoney(request.getFromAccountId(), request.getToAccountId(), request.getAmount());
+        return ResponseEntity.ok("Transfer successful.");
     }
 }
 
