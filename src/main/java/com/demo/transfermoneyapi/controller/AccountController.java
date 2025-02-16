@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -27,9 +30,19 @@ public class AccountController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
+    public ResponseEntity<Map<String, String>> transfer(@RequestBody TransferRequest request) {
         accountService.transferMoney(request.getFromAccountId(), request.getToAccountId(), request.getAmount());
-        return ResponseEntity.ok("Transfer successful.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Transfer successful");
+        return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Bad Request");
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 }
 
