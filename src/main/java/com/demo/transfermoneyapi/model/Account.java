@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Account {
@@ -12,12 +14,18 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 3, message = "Name has to contain at least 3 characters")
+    @NotNull(message = "Name cannot be null")
     private String name;
 
+    @Size(min = 2, message = "Currency has to contain at least 2 characters")
+    @NotNull(message = "Currency cannot be null")
     private String currency;
 
+    @NotNull(message = "Balance cannot be null")
     private BigDecimal balance;
 
+    @NotNull(message = "Treasury flag cannot be null")
     private Boolean treasury;
 
     public Account() {

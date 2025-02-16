@@ -3,6 +3,7 @@ package com.demo.transfermoneyapi.controller;
 import com.demo.transfermoneyapi.dto.TransferRequest;
 import com.demo.transfermoneyapi.model.Account;
 import com.demo.transfermoneyapi.service.AccountService;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +38,31 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+    // Error handling
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", "Bad Request");
         errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Map<String, String>> handleNullPointerException(NullPointerException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Bad Request");
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
+            ConstraintViolationException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            String field = violation.getPropertyPath().toString();
+            errorResponse.put(field, violation.getMessage());
+        });
         return ResponseEntity.badRequest().body(errorResponse);
     }
 }
