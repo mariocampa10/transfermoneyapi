@@ -26,8 +26,8 @@ public class AccountController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<Account> getAllUsers() {
-        return accountService.getAllAccounts();
+    public ResponseEntity<Iterable<Account>> getAllUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.getAllAccounts());
     }
 
     @PostMapping("/transfer")
