@@ -15,20 +15,20 @@ public class TransferRequest {
         return fromAccountId;
     }
 
-    public void setFromAccountId(Long fromAccountId) {
-        this.fromAccountId = fromAccountId;
-    }
-
     public Long getToAccountId() {
         return toAccountId;
     }
 
-    public void setToAccountId(Long toAccountId) {
-        this.toAccountId = toAccountId;
-    }
-
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public void setFromAccountId(Long fromAccountId) {
+        this.fromAccountId = fromAccountId;
+    }
+
+    public void setToAccountId(Long toAccountId) {
+        this.toAccountId = toAccountId;
     }
 
     public void setAmount(BigDecimal amount) {

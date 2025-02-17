@@ -5,6 +5,7 @@ import com.demo.transfermoneyapi.model.Account;
 import com.demo.transfermoneyapi.service.AccountService;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +18,14 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    // Endpoint to create a new account
-    @PostMapping(path="/add")
+    @PostMapping(path = "/add")
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
         Account createdAccount = accountService.createAccount(account);
-        return ResponseEntity.ok(createdAccount);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path = "/all")
     public @ResponseBody Iterable<Account> getAllUsers() {
-        // This returns a JSON or XML with the users
         return accountService.getAllAccounts();
     }
 
@@ -35,7 +34,7 @@ public class AccountController {
         accountService.transferMoney(request.getFromAccountId(), request.getToAccountId(), request.getAmount());
         Map<String, String> response = new HashMap<>();
         response.put("message", "Transfer successful");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Error handling

@@ -4,6 +4,7 @@ import com.demo.transfermoneyapi.model.Account;
 import com.demo.transfermoneyapi.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 
 @Service
@@ -15,7 +16,7 @@ public class AccountService {
     // Creates a new account.
     public Account createAccount(Account account) {
         if (!account.getTreasury() && account.getBalance().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Non traasury accounts can't be negative.");
+            throw new IllegalArgumentException("Non treasury accounts can't be negative.");
         }
         return accountRepository.save(account);
     }
@@ -27,13 +28,18 @@ public class AccountService {
 
     public void transferMoney(Long fromAccountId, Long toAccountId, BigDecimal amount) {
         Account fromAccount = accountRepository.findById(fromAccountId)
-                .orElseThrow(() -> new RuntimeException("Original account not found."));
+                .orElseThrow(() -> new IllegalArgumentException("Original account not found."));
         Account toAccount = accountRepository.findById(toAccountId)
-                .orElseThrow(() -> new RuntimeException("Destination account not found."));
+                .orElseThrow(() -> new IllegalArgumentException("Destination account not found."));
 
         // Currency has to be the same
         if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
             throw new IllegalArgumentException("Account currency does not match.");
+        }
+
+        // Amount has to be positive
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount can't be negative.");
         }
 
         BigDecimal newFromBalance = fromAccount.getBalance().subtract(amount);
