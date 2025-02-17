@@ -63,8 +63,6 @@ The controller will implement the endpoints exposed to the API clients. These en
 
 To see complete OpenApi specification, go to openapi.yaml.
 
----
-
 ### 📌 **E. Handle Validation Errors**
 It is important to provide proper feedback to clients when bad requests occur or when they do not follow the defined rules. To achieve this, implement exception handlers that catch exceptions thrown by the framework and return user-friendly responses.
 
