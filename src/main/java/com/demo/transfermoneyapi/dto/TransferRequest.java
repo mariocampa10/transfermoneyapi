@@ -3,6 +3,7 @@ package com.demo.transfermoneyapi.dto;
 import java.math.BigDecimal;
 
 public class TransferRequest {
+
     private Long fromAccountId;
     private Long toAccountId;
     private BigDecimal amount;

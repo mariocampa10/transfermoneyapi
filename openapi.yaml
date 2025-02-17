@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  description: |
+    This API allows for creating accounts and transferring money between them. It follows RESTful principles.
+  title: Transfer Money API
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/api
+paths:
+  /accounts/add:
+    post:
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAccount'
+        description: Account object to be added (excluding the generated id)
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: Account created successfully
+        "400":
+          description: Invalid input
+      summary: Create a new account
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /accounts/all:
+    get:
+      operationId: getAllAccounts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Account'
+                type: array
+          description: A list of accounts
+      summary: Retrieve all accounts
+      x-accepts:
+      - application/json
+  /accounts/transfer:
+    post:
+      operationId: transferMoney
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        description: Details of the money transfer
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transferMoney_200_response'
+          description: Transfer processed successfully
+        "400":
+          description: Invalid transfer details
+      summary: Transfer money between accounts
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Account:
+      example:
+        balance: 1000.0
+        treasury: true
+        name: Account A
+        currency: EUR
+        id: 1
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        name:
+          example: Account A
+          type: string
+        currency:
+          example: EUR
+          type: string
+        balance:
+          example: 1000.0
+          format: double
+          type: number
+        treasury:
+          example: true
+          type: boolean
+      required:
+      - balance
+      - currency
+      - id
+      - name
+      - treasury
+      type: object
+    NewAccount:
+      example:
+        balance: 1000.0
+        treasury: true
+        name: Account A
+        currency: EUR
+      properties:
+        name:
+          example: Account A
+          minLength: 3
+          type: string
+        currency:
+          example: EUR
+          minLength: 2
+          type: string
+        balance:
+          example: 1000.0
+          format: double
+          type: number
+        treasury:
+          example: true
+          type: boolean
+      required:
+      - balance
+      - currency
+      - name
+      - treasury
+      type: object
+    TransferRequest:
+      example:
+        amount: 50.0
+        fromAccountId: 1
+        toAccountId: 2
+      properties:
+        fromAccountId:
+          example: 1
+          format: int64
+          type: integer
+        toAccountId:
+          example: 2
+          format: int64
+          type: integer
+        amount:
+          example: 50.0
+          format: double
+          type: number
+      required:
+      - amount
+      - fromAccountId
+      - toAccountId
+      type: object
+    transferMoney_200_response:
+      example:
+        message: Transfer successful
+      properties:
+        message:
+          example: Transfer successful
+          type: string
+      type: object
