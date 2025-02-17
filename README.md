@@ -31,7 +31,7 @@ This project is a **REST API** built with **Spring Boot** that allows creating a
 
 ## 🗄 **3. Database Configuration**
 
-### 📌 **A. Configure MySQL`**
+### 📌 **A. Configure MySQL**
 The MySQL database is automatically managed by the framework. Simply ensure Docker is running on your local machine, and a new container for the database will be created automatically.
 
 ---
