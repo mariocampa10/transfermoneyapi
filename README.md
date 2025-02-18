@@ -117,10 +117,10 @@ In another terminal, run the Gatling load test with:
 ```
 ---
 
-To see the report go to build/reports/gatling
+To see the report go to build/reports/gatling.
 
 ## 🚀 **7. Potential Improvements**
 - Transactions between accounts with different currencies
 - Improve error management
-- Add more endpoints to manage accounts (i.e. remove or update)
+- Add more endpoints to manage accounts (i.e. remove or update).
 
