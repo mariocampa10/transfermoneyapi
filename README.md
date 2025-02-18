@@ -9,7 +9,7 @@ This project is a **REST API** built with **Spring Boot** that allows creating a
 - **Java 17**
 - **Spring Boot 3.4.2**
 - **Gradle** (Build Tool)
-- **Docker**- 
+- **Docker**
 - **Gatling** (Java)
 
 ---
