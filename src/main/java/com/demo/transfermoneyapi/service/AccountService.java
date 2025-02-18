@@ -1,6 +1,6 @@
 package com.demo.transfermoneyapi.service;
 
-import com.demo.transfermoneyapi.model.Account;
+import com.demo.transfermoneyapi.entity.Account;
 import com.demo.transfermoneyapi.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ public class AccountService {
 
         // Non treasury accounts can not have negative balance
         if (!fromAccount.getTreasury() && newFromBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Non traasury accounts can't be negative.");
+            throw new IllegalArgumentException("Non treasury accounts can't be negative.");
         }
 
         fromAccount.setBalance(newFromBalance);

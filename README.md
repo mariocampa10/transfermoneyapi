@@ -9,7 +9,7 @@ This project is a **REST API** built with **Spring Boot** that allows creating a
 - **Java 17**
 - **Spring Boot 3.4.2**
 - **Gradle** (Build Tool)
-- **Docker** (Build Tool)- 
+- **Docker**- 
 - **Gatling** (Java)
 
 ---
@@ -32,7 +32,7 @@ This project is a **REST API** built with **Spring Boot** that allows creating a
 ## 🗄 **3. Database Configuration**
 
 ### 📌 **A. Configure MySQL**
-The MySQL database is automatically managed by the framework. Simply ensure Docker is running on your local machine, and a new container for the database will be created automatically.
+To manage data we use a very well-known database that is MySQL. The MySQL database is automatically managed by the framework. Simply ensure Docker is running on your local machine, and a new container for the database will be created automatically.
 
 ---
 
@@ -50,7 +50,7 @@ Implement the service, which contains the core business functionality. It will f
 - Retrieving the account list
 - Performing a transaction between accounts
 
-These operations will be used by the controllers to execute the requested actions.
+These operations will be used by the controller to execute the requested actions.
 
 ### 📌 **D. Create the `AccountController` Controller**
 The controller will implement the endpoints exposed to the API clients. These endpoints are:
@@ -61,7 +61,7 @@ The controller will implement the endpoints exposed to the API clients. These en
 | GET    | `/api/accounts/all`      | Get all accounts                |
 | POST   | `/api/accounts/transfer` | Transfer money between accounts |
 
-To see complete OpenApi specification, go to openapi.yaml.
+To see complete OpenApi specification, open openapi.yaml file.
 
 ### 📌 **E. Handle Validation Errors**
 It is important to provide proper feedback to clients when bad requests occur or when they do not follow the defined rules. To achieve this, implement exception handlers that catch exceptions thrown by the framework and return user-friendly responses.
@@ -121,5 +121,6 @@ To see the report go to build/reports/gatling
 
 ## 🚀 **7. Potential Improvements**
 - Transactions between accounts with different currencies
+- Improve error management
 - Add more endpoints to manage accounts (i.e. remove or update)
 

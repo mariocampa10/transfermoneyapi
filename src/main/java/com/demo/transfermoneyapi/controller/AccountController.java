@@ -1,7 +1,7 @@
 package com.demo.transfermoneyapi.controller;
 
 import com.demo.transfermoneyapi.dto.TransferRequest;
-import com.demo.transfermoneyapi.model.Account;
+import com.demo.transfermoneyapi.entity.Account;
 import com.demo.transfermoneyapi.service.AccountService;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class AccountController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<Map<String, String>> transfer(@RequestBody TransferRequest request) {
+    public ResponseEntity<Map<String, String>> transferMoney(@RequestBody TransferRequest request) {
         accountService.transferMoney(request.getFromAccountId(), request.getToAccountId(), request.getAmount());
         Map<String, String> response = new HashMap<>();
         response.put("message", "Transfer successful");
@@ -56,9 +56,9 @@ public class AccountController {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(
-            ConstraintViolationException ex) {
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(ConstraintViolationException ex) {
         Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Bad Request");
         ex.getConstraintViolations().forEach(violation -> {
             String field = violation.getPropertyPath().toString();
             errorResponse.put(field, violation.getMessage());

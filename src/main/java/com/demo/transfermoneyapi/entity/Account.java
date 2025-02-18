@@ -1,4 +1,4 @@
-package com.demo.transfermoneyapi.model;
+package com.demo.transfermoneyapi.entity;
 
 import java.math.BigDecimal;
 
